@@ -1,0 +1,67 @@
+[
+  "node": [
+    {
+      "name": "butter",
+      "tags": [
+        "baking",
+        "with pan",
+        "vegetarian",
+        "gluten-free"
+      ],
+      "functions": [
+        "pan greese",
+        "dry",
+        "meltable"
+      ]
+    },
+    {
+      "name": "flour",
+      "tags": [
+        "baking",
+        "vegetarian"
+      ],
+      "functions": [
+        "dry"
+      ]
+    },
+    {
+      "name": "salmon",
+      "tags": [
+        "with pan",
+        "gluten-free"
+      ],
+      "functions": [
+        "raw"
+      ]
+    },
+    {
+      "name": "[dry], [dry]|[dry]",
+      "tags": [],
+      "functions": [
+        "dry_mixture"
+      ]
+    }
+  ],
+  "step": [
+    {
+      "name": "Mix [dry_mixture] and [dry] together in a bowl.",
+      "tags": [
+        "baking",
+        "vegetarian",
+        "gluten-free"
+      ],
+      "after": [],
+      "before": []
+    },
+    {
+      "name": "Whisk together [wet_mixture] and [wet] in a bowl.",
+      "tags": [
+        "baking",
+        "with pan",
+        "vegetarian",
+        "gluten-free"
+      ]
+    },
+
+  ]
+]

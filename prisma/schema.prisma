@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Can be a terminal or non-terminal element, used to fill in a step.
+model Node{
+  name String
+  id Int @id @default(autoincrement())
+  tags Tag[]
+  function Function[]
+}
+
+
+model Step {
+  name String
+  id Int @id @default(autoincrement())
+  tags Tag[]
+  after Step[] @relation("stepOrder") // I would recommend getting just the ids from these when using the whole table.
+  before Step[] @relation("stepOrder")
+  unique Boolean
+}
+
+model Recipe {
+  name String
+  id Int @id @default(autoincrement())
+  imagePath String
+  steps RecipeStep[]
+  tags Tag[]
+  likes Int @default(0)
+}
+
+model Tag {
+  name String
+  id Int @id @default(autoincrement())
+  nodes Node[]
+  steps Step[]
+  recipes Recipe[]
+}
+
+model Function {
+  name String
+  id Int @id @default(autoincrement())
+  nodes Node[]
+}
+
+//Recipe Step is a Step that has already been fully completed with Nodes.
+model RecipeStep {
+  text String
+  id Int @id @default(autoincrement())
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+  recipeId Int
+}
