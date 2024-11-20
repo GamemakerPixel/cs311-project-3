@@ -1,9 +1,15 @@
+import AddIngredientForm from "c@/client/add_ingredient_form"
+import AddStepForm from "c@/client/add_step_form"
+import GenerateRecipeForm from "c@/client/generate_recipe_form"
+
+
 export default function Page() {
   return (
     <div>
       <h1>Generate a recipe!</h1>
-      <div>Tags form here plus count of steps.</div>
-      <button className="default-button">Generate</button>
+      <GenerateRecipeForm />
+      <AddIngredientForm />
+      <AddStepForm />
 
     </div>
   )

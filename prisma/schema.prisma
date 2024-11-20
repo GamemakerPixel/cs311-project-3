@@ -14,7 +14,7 @@ datasource db {
 }
 
 // Can be a terminal or non-terminal element, used to fill in a step.
-model Node{
+model Ingredient{
   name String
   id Int @id @default(autoincrement())
   tags Tag[]
@@ -23,18 +23,14 @@ model Node{
 
 
 model Step {
-  name String
+  text String
   id Int @id @default(autoincrement())
-  tags Tag[]
-  after Step[] @relation("stepOrder") // I would recommend getting just the ids from these when using the whole table.
-  before Step[] @relation("stepOrder")
-  unique Boolean
 }
 
 model Recipe {
   name String
   id Int @id @default(autoincrement())
-  imagePath String
+  imagePath String?
   steps RecipeStep[]
   tags Tag[]
   likes Int @default(0)
@@ -43,15 +39,14 @@ model Recipe {
 model Tag {
   name String
   id Int @id @default(autoincrement())
-  nodes Node[]
-  steps Step[]
+  ingredients Ingredient[]
   recipes Recipe[]
 }
 
 model Function {
   name String
   id Int @id @default(autoincrement())
-  nodes Node[]
+  ingredients Ingredient[]
 }
 
 //Recipe Step is a Step that has already been fully completed with Nodes.

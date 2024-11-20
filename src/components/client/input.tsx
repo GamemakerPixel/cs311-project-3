@@ -5,46 +5,44 @@ import { useState } from "react"
 interface InputProps {
   label: string
   name: string
-  placeholder: string
-  validationFunction?: (value: string) => string
+  placeholder?: string
+  validateInput?: (input: string) => string
 }
 
 
 export default function Input({
   label,
   name,
-  placeholder,
-  validationFunction = (value: string) => ""
+  placeholder = "",
+  validateInput = () => "",
 }: InputProps) {
-  const [message, setMessage] = useState<string>("")
-  
-  async function onInputDeselected(event: BlurEvent): void {
-    if (message) {
+  const [errorMessage, setErrorMessage] = useState<string>("")
+
+  function onChanged(event: ChangeEvent) {
+    if (!errorMessage) {
       return
     }
-    const value: string = event.target.value
-    const response: string = await validationFunction(value)
-    setMessage(response)
+
+    setErrorMessage(validateInput(event.target.value))
   }
 
-  async function onInputChanged(event: ChangeEvent): void {
-    if (!message) {
+  function onBlurred(event: BlurEvent) {
+    if (errorMessage) {
       return
     }
-    const value: string = event.target.value
-    const response: string = await validationFunction(value)
-    setMessage(response)
+
+    setErrorMessage(validateInput(event.target.value))
   }
 
   function ErrorMessage(): null | HTMLElement {
-    if (!message) {
+    if (!errorMessage) {
       return null
     }
 
     return (
-      <span className="font-bold text-error">
-        {message}
-      </span>
+      <p className="font-bold text-error">
+        {errorMessage}
+      </p>
     )
   }
 
@@ -54,8 +52,8 @@ export default function Input({
       <input
         name={name}
         placeholder={placeholder}
-        onBlur={onInputDeselected}
-        onChange={onInputChanged}
+        onBlur={onBlurred}
+        onChange={onChanged}
         className="px-1 bg-darker_primary border-2 rounded-lg mx-auto mt-1"
       />
       <ErrorMessage />
