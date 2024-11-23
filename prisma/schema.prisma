@@ -37,14 +37,14 @@ model Recipe {
 }
 
 model Tag {
-  name String
+  name String @unique
   id Int @id @default(autoincrement())
   ingredients Ingredient[]
   recipes Recipe[]
 }
 
 model Function {
-  name String
+  name String @unique
   id Int @id @default(autoincrement())
   ingredients Ingredient[]
 }

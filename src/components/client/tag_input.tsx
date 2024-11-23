@@ -8,10 +8,14 @@ import Input from "c@/client/input"
 export default function TagInput(
   {
     name,
-    minimumTags = 0
+    minimumTags = 0,
+    serverErrorMessage = "",
+    disabled = false
   }: {
     name: string,
-    minimumTags: number
+    minimumTags?: number,
+    serverErrorMessage?: string,
+    disabled?: boolean
   }
 ) {
   const tagDelimiter = ","
@@ -32,6 +36,8 @@ export default function TagInput(
       name="tags"
       placeholder="tag1,tag2,tag3"
       validateInput={validateTags}
+      serverErrorMessage={serverErrorMessage}
+      disabled={disabled}
     />
   )
   
