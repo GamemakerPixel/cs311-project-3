@@ -1,52 +1,94 @@
 "use client"
+import { useState, useActionState, useRef, useEffect, startTransition } from "react"
 
-import { useState } from "react"
+import Input from "c@/client/input"
+import TagInput from "c@/client/tag_input"
 
-import Input from "c@/client/input.tsx"
 
-
-export interface InputData {
-  label: string
+interface InputData {
+  type: string
   name: string
-  placeholder: string
-  validationFunction?: (value: string) => string
+  props: {[prop: string]: any}
 }
 
 
-export function Form(
-  { 
-    inputs,
+export default function Form(
+  {
     action,
-    submitText = "Submit"
+    inputs,
+    buttonText
   }: {
-    inputs: InputData[],
     action: (data: FormData) => Promise<void>
-    submitText?: string
+    inputs: InputData[]
+    buttonText: string
   }) {
+  const [serverErrors, formAction, pending] = useActionState(action, {"name": "", "tags": ""})
+  const formRef = useRef<HTMLFormElement>(null)
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
+  useEffect(() => {
+    if (!formRef.current) {
+      return
+    }
 
-  function onFormSubmitted(event: SubmitEvent): void {
+    let errorFlag = false
+
+    Object.keys(serverErrors).forEach((key) => {
+      if (serverErrors[key]) {
+        errorFlag = true
+        return
+      }
+    })
+
+    if (errorFlag) {
+      return
+    }
+
+    formRef.current.reset()
+  }, [serverErrors])
+
+  function onSubmitted(event: SubmitEvent) {
     event.preventDefault()
+    const data = new FormData(formRef.current)
 
-
+    startTransition(() => {
+      formAction(data)
+    })
   }
 
+  const formButtonClass = "mx-auto default-button min-w-32"
 
   return (
-    <form onSubmit={onFormSubmitted} className="flex flex-col">
-      {inputs.map((inputData: InputData, index: number) => (
-        <Input
-          label={inputData.label}
-          name={inputData.name}
-          placeholder={inputData.placeholder}
-          validationFunction={inputData.validationFunction}
-          key={index}
-          submitting={submitting}
-        />
-      ))}
-      <button type="submit" className="default-button">{submitText}</button>
+    <form className="flex flex-col" ref={formRef} onSubmit={onSubmitted}>
+      <p className="text-center">Add an ingredient:</p>
+      {inputs.map((input: InputData, index: number) => {
+        switch (input.type) {
+          case "text":
+            return <Input
+              {...input.props}
+              name={input.name}
+              serverErrorMessage={(pending) ? "" : serverErrors[input.name]}
+              disabled={pending}
+              key={index}
+            />
+          case "tags":
+            return <TagInput
+              {...input.props}
+              name={input.name}
+              serverErrorMessage={(pending) ? "" : serverErrors[input.name]}
+              disabled={pending}
+              key={index}
+            />
+          default:
+            return <p key={index}>Invalid type: {input.type}</p>
+        }
+      })}
+      <button
+        type="submit"
+        className={formButtonClass}
+        disabled={pending}
+      >
+      {buttonText}
+      </button>
     </form>
   )
 }
-

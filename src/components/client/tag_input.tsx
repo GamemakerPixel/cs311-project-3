@@ -8,23 +8,29 @@ import Input from "c@/client/input"
 export default function TagInput(
   {
     name,
+    label = "Tags:",
+    placeholder = "tag1,tag2,tag3",
     minimumTags = 0,
+    notEnoughTagsMessage = "",
     serverErrorMessage = "",
     disabled = false
   }: {
     name: string,
+    label?: string
+    placeholder?: string
     minimumTags?: number,
+    notEnoughTagsMessage?: string,
     serverErrorMessage?: string,
     disabled?: boolean
   }
 ) {
+  const defaultNotEnoughTagsMessage = `You must have at least ${minimumTags} tags.`
   const tagDelimiter = ","
   function validateTags(tagsInput: string): string {
     const tagsList = tagsInput.split(tagDelimiter).filter((tag: string) => tag != "")
 
     if (tagsList.length < minimumTags) {
-      const pluralCharacter = (minimumTags == 1) ? "" : "s"
-      return `You must have at least ${minimumTags} tag${pluralCharacter}.`
+      return (notEnoughTagsMessage) ? notEnoughTagsMessage : defaultNotEnoughTagsMessage
     }
 
     return ""
@@ -32,9 +38,9 @@ export default function TagInput(
 
   return (
     <Input
-      label="Tags:"
-      name="tags"
-      placeholder="tag1,tag2,tag3"
+      label={label}
+      name={name}
+      placeholder={placeholder}
       validateInput={validateTags}
       serverErrorMessage={serverErrorMessage}
       disabled={disabled}
