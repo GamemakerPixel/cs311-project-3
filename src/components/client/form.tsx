@@ -53,6 +53,9 @@ export default function Form(
     event.preventDefault()
     const data = new FormData(formRef.current)
 
+    console.log("Form submission:")
+    console.log(data)
+
     startTransition(() => {
       formAction(data)
     })
@@ -93,10 +96,10 @@ export default function Form(
       {buttonText}
       </button>
 
-      {hiddenData.keys().map((key: string) => {
+      {Object.keys(hiddenData).map((key: string, index: number) => {
         if (hiddenData[key]){
           return (
-            <input name={key} value={hiddenData[key]} />
+            <input name={key} key={index} value={hiddenData[key]} type="hidden" />
           )
         }
       })}

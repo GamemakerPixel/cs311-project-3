@@ -103,7 +103,7 @@ export default function Input({
       <input
         name={name}
         placeholder={placeholder}
-        initialValue={initialValue}
+        defaultValue={initialValue}
         onBlur={onBlurred}
         onChange={onChanged}
         disabled={disabled}

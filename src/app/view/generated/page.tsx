@@ -6,16 +6,11 @@ export default function Page() {
   return (
     <div>
       <RecipeGenerator
-      />
-    </div>
-  )
-}
-/*
         generateAction={async (tags: string[], count: number) => {
           "use server"
           const result = await generateRecipe(count, tags)
           return result
-        }},
+        }}
         saveAction={async (data: FormData) => {
           "use server"
           const response = {
@@ -28,4 +23,9 @@ export default function Page() {
 
           return response
         }}
+      />
+    </div>
+  )
+}
+/*
 */
