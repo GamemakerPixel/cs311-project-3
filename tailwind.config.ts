@@ -15,6 +15,7 @@ export default {
         text: "#efece6",
         itext: "#051420",
         error: "#FF4949",
+        warning: "#FFEE49"
       },
     },
   },

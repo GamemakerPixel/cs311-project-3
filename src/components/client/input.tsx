@@ -18,6 +18,7 @@ interface InputProps {
   label: string
   name: string
   placeholder?: string
+  initialValue?: string
   serverErrorMessage?: string
   validationSteps?: string[]
   validateInput?: (input: string) => string
@@ -29,6 +30,7 @@ export default function Input({
   label,
   name,
   placeholder = "",
+  initialValue = "",
   serverErrorMessage = "",
   validationSteps = [],
   validateInput = () => "",
@@ -101,6 +103,7 @@ export default function Input({
       <input
         name={name}
         placeholder={placeholder}
+        initialValue={initialValue}
         onBlur={onBlurred}
         onChange={onChanged}
         disabled={disabled}

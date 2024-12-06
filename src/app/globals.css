@@ -17,3 +17,7 @@ p {
 .default-button {
   @apply bg-darker_primary p-4 rounded-xl border-2 my-4
 }
+
+.small-button {
+  @apply py-1 px-2 my-2 border-2 rounded-lg bg-darker_primary
+}

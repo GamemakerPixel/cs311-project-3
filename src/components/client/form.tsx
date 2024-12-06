@@ -3,6 +3,7 @@ import { useState, useActionState, useRef, useEffect, startTransition } from "re
 
 import Input from "c@/client/input"
 import TagInput from "c@/client/tag_input"
+import { ErrorResponse } from "@c/server/input_parsing"
 
 
 interface InputData {
@@ -16,11 +17,13 @@ export default function Form(
   {
     action,
     inputs,
-    buttonText
+    buttonText,
+    hiddenData = {},
   }: {
-    action: (data: FormData) => Promise<void>
+    action: (data: FormData) => Promise<ErrorResponse>
     inputs: InputData[]
     buttonText: string
+    hiddenData?: {[field: string]: string}
   }) {
   const [serverErrors, formAction, pending] = useActionState(action, {"name": "", "tags": ""})
   const formRef = useRef<HTMLFormElement>(null)
@@ -89,6 +92,14 @@ export default function Form(
       >
       {buttonText}
       </button>
+
+      {hiddenData.keys().map((key: string) => {
+        if (hiddenData[key]){
+          return (
+            <input name={key} value={hiddenData[key]} />
+          )
+        }
+      })}
     </form>
   )
 }

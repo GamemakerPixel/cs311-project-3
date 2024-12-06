@@ -1,4 +1,5 @@
 import Form from "c@/client/form"
+import { ErrorResponse } from "c@/server/input_parsing"
 
 
 export default function AddStepForm({ action }: { action: (data: FormData) => Promise<void>}) {

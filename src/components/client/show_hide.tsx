@@ -25,7 +25,7 @@ export default function ShowHide(
         <button
           onClick={() => {setRevealed(false)}}
           type="button"
-          className={"mx-auto default-button min-w-32"}
+          className={"mx-auto small-button min-w-32"}
         >
           Cancel
         </button>
@@ -38,7 +38,7 @@ export default function ShowHide(
       <p className="text-center">
         {hintText}
       </p>
-      <button onClick={() => {setRevealed(true)}} className="default-button mx-auto">
+      <button onClick={() => {setRevealed(true)}} className="small-button mx-auto">
         {showButtonText}
       </button>
     </div>

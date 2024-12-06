@@ -2,6 +2,11 @@ const functionOpen = "["
 const functionClose = "]"
 
 
+export interface ErrorResponse {
+  [inputName: string]: string
+}
+
+
 export function parseTags(input: string): string[] {
   const tagDelimiter = ","
 
@@ -82,4 +87,10 @@ export function stepHasNestedFunction(input: string): Boolean {
       functionIsOpen = false
     }
   }
+}
+
+export function isNotANumber(input: string): Boolean {
+  const number = parseInt(input)
+
+  return isNaN(number)
 }

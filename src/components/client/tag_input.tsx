@@ -10,6 +10,7 @@ export default function TagInput(
     name,
     label = "Tags:",
     placeholder = "tag1,tag2,tag3",
+    initialValue = "",
     minimumTags = 0,
     notEnoughTagsMessage = "",
     serverErrorMessage = "",
@@ -18,6 +19,7 @@ export default function TagInput(
     name: string,
     label?: string
     placeholder?: string
+    initialValue?: string
     minimumTags?: number,
     notEnoughTagsMessage?: string,
     serverErrorMessage?: string,
@@ -37,14 +39,17 @@ export default function TagInput(
   }
 
   return (
-    <Input
-      label={label}
-      name={name}
-      placeholder={placeholder}
-      validateInput={validateTags}
-      serverErrorMessage={serverErrorMessage}
-      disabled={disabled}
-    />
+    <div>
+      <Input
+        label={label}
+        name={name}
+        placeholder={placeholder}
+        initialValue={initialValue}
+        validateInput={validateTags}
+        serverErrorMessage={serverErrorMessage}
+        disabled={disabled}
+      />
+    </div>
   )
   
 }
