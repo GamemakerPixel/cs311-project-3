@@ -7,6 +7,7 @@ export default function AddStepForm({ action }: { action: (data: FormData) => Pr
     <Form
       action={action}
       buttonText="Add"
+      header="Add a step (use functions inside brackets to indicate placeholders): "
       inputs={[
         {
           type: "text",

@@ -1,10 +1,12 @@
 "use client"
 import { useState, useActionState, useRef, useEffect, startTransition } from "react"
+import { motion } from "motion/react"
 
 import Input from "c@/client/input"
 import TagInput from "c@/client/tag_input"
 import ImageInput from "c@/client/image_input"
 import { ErrorResponse } from "@c/server/input_parsing"
+import { defaultButtonAnim, fadeInChildren } from "@/src/util/client/animations"
 
 
 interface InputData {
@@ -19,11 +21,13 @@ export default function Form(
     action,
     inputs,
     buttonText,
+    header = "",
     hiddenData = {},
   }: {
     action: (data: FormData) => Promise<ErrorResponse>
     inputs: InputData[]
     buttonText: string
+    header?: string
     hiddenData?: {[field: string]: string}
   }) {
   const [serverErrors, formAction, pending] = useActionState(action, {"name": "", "tags": ""})
@@ -62,8 +66,18 @@ export default function Form(
   const formButtonClass = "mx-auto default-button min-w-32"
 
   return (
-    <form className="flex flex-col" ref={formRef} onSubmit={onSubmitted}>
-      <p className="text-center">Add an ingredient:</p>
+    <motion.form
+      className="flex flex-col"
+      ref={formRef}
+      onSubmit={onSubmitted}
+      {...fadeInChildren.parent}
+    >
+      <motion.p
+        className="text-center"
+        {...fadeInChildren.child}
+      >
+        {header}
+      </motion.p>
       {inputs.map((input: InputData, index: number) => {
         switch (input.type) {
           case "text":
@@ -94,13 +108,15 @@ export default function Form(
             return <p key={index}>Invalid type: {input.type}</p>
         }
       })}
-      <button
+      <motion.button
         type="submit"
         className={formButtonClass}
         disabled={pending}
+        {...defaultButtonAnim}
+        {...fadeInChildren.child}
       >
       {buttonText}
-      </button>
+      </motion.button>
 
       {Object.keys(hiddenData).map((key: string, index: number) => {
         if (hiddenData[key]){
@@ -109,6 +125,6 @@ export default function Form(
           )
         }
       })}
-    </form>
+    </motion.form>
   )
 }

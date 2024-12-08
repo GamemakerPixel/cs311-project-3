@@ -1,6 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import { motion, AnimatePresence } from "motion/react"
+
+import { fadeInChildren, errorTextAnims } from "@/src/util/client/animations"
 
 
 const validationStepFunctions: {[stepName: string]: (input: string) => string} = {
@@ -93,20 +96,22 @@ export default function Input({
   }
 
   function ErrorMessage({ message }: { message: string }): null | HTMLElement {
-    if (!message) {
-      return null
-    }
-
     return (
-      <p className="font-bold text-error">
-        {message}
-      </p>
+      <AnimatePresence>
+        {message && <motion.p
+          className="font-bold text-error"
+          {...errorTextAnims}
+        >
+          {message}
+        </motion.p>}
+      </AnimatePresence>
     )
   }
 
   return (
-    <label
+    <motion.label
       className={(labelClassOverride) ? labelClassOverride : "flex flex-col my-4 text-center"}
+      {...fadeInChildren.child}
     >
       {label}
       <input
@@ -121,8 +126,6 @@ export default function Input({
       />
       <ErrorMessage message={errorMessage}/>
       <ErrorMessage message={serverErrorMessage}/>
-    </label>
+    </motion.label>
   )
 }
-/*
-*/

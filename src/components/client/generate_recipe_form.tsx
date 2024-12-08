@@ -3,7 +3,7 @@ import Form from "c@/client/form"
 import { ErrorResponse } from "c@/server/input_parsing"
 
 
-export default function AddIngredientForm({ action }: { action: (data: FormData) => Promise<ErrorResponse>}) {
+export default function GenerateRecipeForm({ action }: { action: (data: FormData) => Promise<ErrorResponse>}) {
   function validateStepCount(input: string): string {
     if (!input) {
       return "Please enter the number of steps you want."

@@ -1,6 +1,9 @@
 "use client"
 
 import { useState, PropsWithChildren } from "react"
+import { motion } from "motion/react"
+
+import { defaultButtonAnim, fadeInChildren } from "@/src/util/client/animations"
 
 
 export default function ShowHide(
@@ -20,16 +23,21 @@ export default function ShowHide(
 
   if (revealed) {
     return (
-      <div className="flex flex-col">
+      <motion.div
+        className="flex flex-col"
+        {...fadeInChildren.parent}
+      >
         {children}
-        <button
+        <motion.button
           onClick={() => {setRevealed(false)}}
           type="button"
-          className={"mx-auto small-button min-w-32"}
+    className="mx-auto small-button min-w-32"
+          {...fadeInChildren.child}
+          {...defaultButtonAnim}
         >
           Cancel
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
     )
   }
 
@@ -38,10 +46,13 @@ export default function ShowHide(
       <p className="text-center">
         {hintText}
       </p>
-      <button onClick={() => {setRevealed(true)}} className="small-button mx-auto">
+      <motion.button
+        onClick={() => {setRevealed(true)}}
+        className="small-button mx-auto"
+        {...defaultButtonAnim}
+      >
         {showButtonText}
-      </button>
+      </motion.button>
     </div>
   )
-
 }

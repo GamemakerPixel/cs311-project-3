@@ -8,6 +8,7 @@ export default function AddIngredientForm({ action }: { action: (data: FormData)
     <Form
       action={action}
       buttonText="Add"
+      header="Add an ingredient:"
       inputs={[
         {
           type: "text",
