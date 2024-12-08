@@ -17,25 +17,32 @@ const validationStepFunctions: {[stepName: string]: (input: string) => string} =
 interface InputProps {
   label: string
   name: string
+  type?: string
   placeholder?: string
   initialValue?: string
   serverErrorMessage?: string
   validationSteps?: string[]
   validateInput?: (input: string) => string
   disabled?: boolean
+  additionalProps?: {[propName: string]: any}
+  inputClassOverride?: string
+  labelClassOverride?: string
 }
 
 
 export default function Input({
   label,
   name,
+  type = "text",
   placeholder = "",
   initialValue = "",
   serverErrorMessage = "",
   validationSteps = [],
   validateInput = () => "",
-  disabled = false
-
+  disabled = false,
+  additionalProps = {},
+  inputClassOverride = "",
+  labelClassOverride = "",
 }: InputProps) {
   const [errorMessage, setErrorMessage] = useState<string>("")
 
@@ -98,7 +105,9 @@ export default function Input({
   }
 
   return (
-    <label className="flex flex-col my-4 text-center">
+    <label
+      className={(labelClassOverride) ? labelClassOverride : "flex flex-col my-4 text-center"}
+    >
       {label}
       <input
         name={name}
@@ -107,7 +116,8 @@ export default function Input({
         onBlur={onBlurred}
         onChange={onChanged}
         disabled={disabled}
-        className="px-1 bg-darker_primary border-2 rounded-lg mx-auto mt-1"
+        className={(inputClassOverride) ? inputClassOverride : "px-1 bg-darker_primary border-2 rounded-lg mx-auto mt-1 text-center"}
+        {...additionalProps}
       />
       <ErrorMessage message={errorMessage}/>
       <ErrorMessage message={serverErrorMessage}/>

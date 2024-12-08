@@ -3,6 +3,7 @@ import { useState, useActionState, useRef, useEffect, startTransition } from "re
 
 import Input from "c@/client/input"
 import TagInput from "c@/client/tag_input"
+import ImageInput from "c@/client/image_input"
 import { ErrorResponse } from "@c/server/input_parsing"
 
 
@@ -53,9 +54,6 @@ export default function Form(
     event.preventDefault()
     const data = new FormData(formRef.current)
 
-    console.log("Form submission:")
-    console.log(data)
-
     startTransition(() => {
       formAction(data)
     })
@@ -78,6 +76,14 @@ export default function Form(
             />
           case "tags":
             return <TagInput
+              {...input.props}
+              name={input.name}
+              serverErrorMessage={(pending) ? "" : serverErrors[input.name]}
+              disabled={pending}
+              key={index}
+            />
+          case "image":
+            return <ImageInput
               {...input.props}
               name={input.name}
               serverErrorMessage={(pending) ? "" : serverErrors[input.name]}

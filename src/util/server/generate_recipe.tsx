@@ -54,7 +54,7 @@ async function getIngredientOptions(
   // function.
   const functionsMissingTaggedIngredients: string[] = uniqueFunctions.filter((func: string, index: number) => ingredients[index].length == 0)
   if (functionsMissingTaggedIngredients.length > 0){
-    warning = `Could not find an ingredient for these functions: ${functionsMissingTaggedIngredients.join(", ")} with these tags ${tags.join(", ")} - disregarding tags.`
+    warning = `Could not find an ingredient for these functions: ${functionsMissingTaggedIngredients.join(", ")} using these tags: ${tags.join(", ")} - disregarding tags.`
     const untaggedIngredients: string[][] = await getIngredientsForFunctions(functionsMissingTaggedIngredients)
 
     untaggedIngredients.forEach((ingredientList: string[], index: number) => {

@@ -40,13 +40,18 @@ function StepList(
   }
 
   return (
-    <div className="flex flex-col items-center bg-darker_primary p-4 rounded-xl">
+    <div className="flex flex-col items-center bg-darker_primary p-4 rounded-xl mx-auto w-96">
       <p className="mb-2">Steps:</p>
-      <div>
+      <ul>
         {steps.map((step: string, index: number) => (
-          <p key={index}>{step}</p>
+          <li
+            key={index}
+            className="my-1"
+          >
+            {step}
+          </li>
         ))}
-      </div>
+      </ul>
       <WarningMessage warning={warning} />
     </div>
   )

@@ -41,6 +41,7 @@ export default function AddIngredientForm({ action }: { action: (data: FormData)
           name: "tags",
           props: {
             minimumTags: 2,
+            maximumTags: 5,
           }
         },
       ]}

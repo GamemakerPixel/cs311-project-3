@@ -62,6 +62,34 @@ export async function addStep(step: string, functions: string[]) {
 }
 
 
+export async function addRecipe(title: string, tags: string[], steps: string[]) {
+  const response = await prisma.recipe.create({
+    data: {
+      name: title,
+      tags: {
+        connectOrCreate: tags.map((tag: string) => (
+          {
+            where: {
+              name: tag
+            },
+            create: {
+              name: tag
+            }
+          }
+        ))
+      },
+      steps: {
+        create: steps.map((step: string) => ({
+          text: step
+        }))
+      }
+    }
+  })
+
+  return response.id
+}
+
+
 export async function getPage(
   cursor: {
     next: number
@@ -98,10 +126,6 @@ export async function getPage(
     prisma[table].findMany(request),
     prisma[table].findMany(borderRequest),
   ])
-
-  console.log(cursor)
-  console.log(response)
-  console.log(borderResponse)
 
   const names = response.map((tag) => tag.name)
   const newCursor = {
@@ -247,3 +271,91 @@ export async function getAllIngredients(functions: string[]) {
   return await prisma.ingredient.findMany()
 }
 
+
+export async function getRecipe(recipeId: number) {
+  console.log("Find with id: " + recipeId)
+  return await prisma.recipe.findUnique({
+    where: {
+      id: recipeId
+    },
+    include: {
+      steps: true
+    }
+  })
+}
+
+
+export async function getLikeCount(recipeId: number): number {
+  // We don't need the steps for this, so they've not been included.
+  const response = await prisma.recipe.findUnique({
+    where: {
+      id: recipeId
+    }
+  })
+
+  return response.likes
+}
+
+
+export async function updateLikeCount(recipeId: number, increment: boolean) {
+  const likes = await getLikeCount(recipeId)
+
+  await prisma.recipe.update({
+    where: {
+      id: recipeId
+    },
+    data: {
+      likes: likes + ((increment) ? 1 : -1)
+    }
+  })
+}
+
+
+export async function searchRecipes(tags: string[], title: string) {
+  // Only get the information we need for search results.
+  const selectQuery = {
+    name: true,
+    id: true,
+    tags: {
+      select: {
+        name: true,
+      },
+    },
+  }
+
+  // No search information provided, return all recipes. (Could use impagination 
+  // should this feature need to scale.)
+  let titleSearchPool
+  if (tags.length == 0) {
+    titleSearchPool = await prisma.recipe.findMany({
+      select: selectQuery
+    })
+  }
+  // Query by tag information first. We cannot search for parts of the title because
+  // Prisma only supports it for MySQL and PostgreSQL.
+  // Any recipe with at least one of the tags will be returned.
+  else {
+    titleSearchPool = await prisma.recipe.findMany({
+      where: {
+        tags: {
+          some: {
+            OR: tags.map((tag: string) => ({
+              name: tag
+            }))
+          }
+        }
+      },
+      select: selectQuery
+    })
+  }
+
+  // Can't search the title if the user doesn't give us part of it.
+  if (!title) {
+    return titleSearchPool
+  }
+
+  const lowerCaseTitle = title.toLowerCase()
+  return titleSearchPool.filter((recipe) => (
+    recipe.name.toLowerCase().includes(lowerCaseTitle)
+  ))
+}

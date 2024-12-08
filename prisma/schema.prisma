@@ -30,7 +30,6 @@ model Step {
 model Recipe {
   name String
   id Int @id @default(autoincrement())
-  imagePath String?
   steps RecipeStep[]
   tags Tag[]
   likes Int @default(0)

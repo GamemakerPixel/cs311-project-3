@@ -36,6 +36,10 @@ export default function SaveRecipeForm(
             initialValue: tags,
           }
         },
+        {
+          type: "image",
+          name: "image",
+        },
       ]}
       hiddenData={{
         steps: steps.join("\n")

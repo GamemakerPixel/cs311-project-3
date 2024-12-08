@@ -5,6 +5,9 @@ import Input from "c@/client/input"
 // Ideally this component gains the ability to search for 
 // tags on the database and add them through buttons, but
 // it is not required so I'm starting with the minimum.
+//
+// Looking back at this now, there's got to be a better way
+// to prop drill than this.
 export default function TagInput(
   {
     name,
@@ -12,27 +15,33 @@ export default function TagInput(
     placeholder = "tag1,tag2,tag3",
     initialValue = "",
     minimumTags = 0,
-    notEnoughTagsMessage = "",
+    maximumTags = 9999,
+    incorrectTagCountMessage = "",
     serverErrorMessage = "",
-    disabled = false
+    disabled = false,
+    inputClassOverride = "",
+    labelClassOverride = "",
   }: {
-    name: string,
+    name: string
     label?: string
     placeholder?: string
     initialValue?: string
-    minimumTags?: number,
-    notEnoughTagsMessage?: string,
-    serverErrorMessage?: string,
+    minimumTags?: number
+    maximumTags?: number
+    incorrectTagCountMessage?: string
+    serverErrorMessage?: string
     disabled?: boolean
+    inputClassOverride?: string
+    labelClassOverride?: string
   }
 ) {
-  const defaultNotEnoughTagsMessage = `You must have at least ${minimumTags} tags.`
+  const defaultIncorrectTagCountMessage = `You must have between ${minimumTags} and ${maximumTags} tags.`
   const tagDelimiter = ","
   function validateTags(tagsInput: string): string {
     const tagsList = tagsInput.split(tagDelimiter).filter((tag: string) => tag != "")
 
-    if (tagsList.length < minimumTags) {
-      return (notEnoughTagsMessage) ? notEnoughTagsMessage : defaultNotEnoughTagsMessage
+    if (tagsList.length < minimumTags || tagsList.length > maximumTags) {
+      return (incorrectTagCountMessage) ? incorrectTagCountMessage : defaultIncorrectTagCountMessage
     }
 
     return ""
@@ -48,6 +57,8 @@ export default function TagInput(
         validateInput={validateTags}
         serverErrorMessage={serverErrorMessage}
         disabled={disabled}
+        inputClassOverride={inputClassOverride}
+        labelClassOverride={labelClassOverride}
       />
     </div>
   )

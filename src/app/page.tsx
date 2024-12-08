@@ -1,9 +1,12 @@
+"use client"
 import Image from "next/image"
+import { motion } from "motion/react"
 
 
 export default function Home() {
   return (
     <div>
+      <motion.div className="box" animate={{ x: 100 }} />
       <Image 
       src="/logo.svg"
       width={256}

@@ -46,6 +46,12 @@ export function tagCountLessThan(input: string, count: number): Boolean {
 }
 
 
+export function tagCountOutsideInclusiveRange(input: string, minimum: number, maximum: number): Boolean {
+  const tags: string[] = parseTags(input)
+  return (tags.length < minimum) || (tags.length > maximum)
+}
+
+
 // Example cases: "[text]":false, "[[text]":true, "[text]]":true, "]":true
 export function stepHasUnclosedFunction(input: string): Boolean {
   let openFunctions = 0
@@ -93,4 +99,17 @@ export function isNotANumber(input: string): Boolean {
   const number = parseInt(input)
 
   return isNaN(number)
+}
+
+export function containsError(validationResponse: ErrorResponse): boolean {
+  let errorFlag = false
+
+  Object.keys(validationResponse).forEach((key: string) => {
+    if (validationResponse[key]) {
+      errorFlag = true
+      return
+    }
+  })
+
+  return errorFlag
 }

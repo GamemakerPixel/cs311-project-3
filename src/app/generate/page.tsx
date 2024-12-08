@@ -17,25 +17,12 @@ import {
   isBlank,
   parseTags,
   getFunctionsFromStep,
-  tagCountLessThan,
+  tagCountOutsideInclusiveRange,
   stepHasUnclosedFunction,
   stepHasNestedFunction,
   isNotANumber,
+  containsError,
 } from "@/src/util/server/input_parsing"
-
-
-function containsError(validationResponse: ErrorResponse): boolean {
-  let errorFlag = false
-
-  Object.keys(validationResponse).forEach((key: string) => {
-    if (validationResponse[key]) {
-      errorFlag = true
-      return
-    }
-  })
-
-  return errorFlag
-}
 
 
 export default function Page() {
@@ -55,8 +42,8 @@ export default function Page() {
         response["steps"] = "Step count must be greater than 0."
       }
 
-      if (tagCountLessThan(data.get("tags"), 2)) {
-        response["tags"] = "You must add at least two tags."
+      if (tagCountOutsideInclusiveRange(data.get("tags"), 2, 5)) {
+        response["tags"] = "You must add between 2 and 5 tags."
       }
 
       // Only run the database checks when the input has been validated.
