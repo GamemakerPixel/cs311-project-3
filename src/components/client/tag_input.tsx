@@ -12,7 +12,7 @@ export default function TagInput(
   {
     name,
     label = "Tags:",
-    placeholder = "tag1,tag2,tag3",
+    placeholder = "tag1, tag2, tag3",
     initialValue = "",
     minimumTags = 0,
     maximumTags = 9999,

@@ -39,7 +39,7 @@ export async function addIngredient(name: string, tags: string[], functions: str
 // Functions can be parsed by methods in utils/server/input_parsing.
 export async function addStep(step: string, functions: string[]) {
   await prisma.$transaction(
-    [
+  [
       prisma.step.create({
         data: {
           text: step
@@ -50,9 +50,9 @@ export async function addStep(step: string, functions: string[]) {
         prisma.function.upsert({
           where: {
             name: func
-          },
+        },
           update: {},
-          create: {
+        create: {
             name: func
           }
         })

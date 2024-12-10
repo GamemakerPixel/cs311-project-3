@@ -1,67 +1,116 @@
-[
-  "node": [
-    {
-      "name": "butter",
-      "tags": [
-        "baking",
-        "with pan",
-        "vegetarian",
-        "gluten-free"
-      ],
-      "functions": [
-        "pan greese",
-        "dry",
-        "meltable"
-      ]
-    },
+{
+  "steps": [
+    "Mix [wet] and [dry] together in a bowl.",
+    "Bake [cookable] in the oven for an hour.",
+    "Lightly glaze [cookable] with [wet] before cooking it in a pan.",
+    "Lightly dust [cooked] with [dry] to add some flavor.",
+    "Pan fry [cookable] until it closely resembles [cooked].",
+    "Thoroughly soak [cookable] in [wet] to prepare it for cooking."
+  ],
+  "ingredients": [
     {
       "name": "flour",
       "tags": [
-        "baking",
-        "vegetarian"
+        "baking"
       ],
       "functions": [
         "dry"
       ]
     },
     {
-      "name": "salmon",
+      "name": "dough",
       "tags": [
-        "with pan",
-        "gluten-free"
+        "baking"
       ],
       "functions": [
-        "raw"
+        "cookable"
       ]
     },
     {
-      "name": "[dry], [dry]|[dry]",
-      "tags": [],
+      "name": "water",
+      "tags": [
+        "baking",
+        "pan"
+      ],
       "functions": [
-        "dry_mixture"
+        "wet"
+      ]
+    },
+    {
+      "name": "bread",
+      "tags": [
+        "baking"
+      ],
+      "functions": [
+        "cooked"
+      ]
+    },
+    {
+      "name": "salt",
+      "tags": [
+        "baking",
+        "pan"
+      ],
+      "functions": [
+        "dry"
+      ]
+    },
+    {
+      "name": "raw salmon",
+      "tags": [
+        "pan"
+      ],
+      "functions": [
+        "cookable"
+      ]
+    },
+    {
+      "name": "sugar glaze",
+      "tags": [
+        "pan"
+      ],
+      "functions": [
+        "wet"
+      ]
+    },
+    {
+      "name": "cooked salmon",
+      "tags": [
+        "pan"
+      ],
+      "functions": [
+        "cooked"
       ]
     }
   ],
-  "step": [
+  "recipes": [
     {
-      "name": "Mix [dry_mixture] and [dry] together in a bowl.",
+      "name": "Cinnamon Bread",
       "tags": [
-        "baking",
-        "vegetarian",
-        "gluten-free"
+        "baking"
       ],
-      "after": [],
-      "before": []
-    },
-    {
-      "name": "Whisk together [wet_mixture] and [wet] in a bowl.",
-      "tags": [
-        "baking",
-        "with pan",
-        "vegetarian",
-        "gluten-free"
+      "likes": 15,
+      "steps": [
+        "Combine water, flour, sugar, and yeast into a bowl and mix thoroughly.",
+        "Let the dough rise for a few hours.",
+        "Cook it in the oven for an hour.",
+        "Throw some sugar and cinnamon on top.",
+        "Enjoy!"
       ]
     },
-
+    {
+      "name": "Unicorn Salmon",
+      "tags": [
+        "pan"
+      ],
+      "likes": 70,
+      "steps": [
+        "Combine a mixture of water, brown sugar, and fairy dust in to a bowl.",
+        "Lightly glaze raw salmon in this mixture",
+        "Cook the salmon in a pan until mostly cooked.",
+        "Let it cook off on the counter.",
+        "Add unicorn horn shreddings to the surface."
+      ]
+    }
   ]
-]
+}

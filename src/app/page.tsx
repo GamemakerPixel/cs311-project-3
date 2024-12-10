@@ -1,5 +1,9 @@
 "use client"
 import Image from "next/image"
+import { motion } from "motion/react"
+import Link from "next/link"
+
+import { defaultButtonAnim } from "@/src/util/client/animations"
 
 
 export default function Home() {
@@ -17,6 +21,14 @@ export default function Home() {
         Welcome to Mythical Meals, the site where food meets
         <span className="italic mx-1 text-accent">magic.</span>
       </p>
+      <motion.button
+        className="default-button block mx-auto"
+        {...defaultButtonAnim}
+      >
+        <Link href="/generate">
+          Get started by generating a recipe!
+        </Link>
+      </motion.button>
     </div>
   )
 }

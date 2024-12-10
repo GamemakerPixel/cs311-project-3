@@ -3,67 +3,94 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 
+async function seed_ingredients(ingredients) {
+  await prisma.$transaction(
+    ingredients.map((ingredient) => (
+      prisma.ingredient.create({
+        data: {
+          name: ingredient.name,
+          tags: {
+            connectOrCreate:
+              ingredient.tags.map((tag) => ({
+                where: {
+                  name: tag
+                },
+                create: {
+                  name: tag
+                }
+              }))
+          },
+          function: {
+            connectOrCreate:
+              ingredient.functions.map((func) => ({
+                where: {
+                  name: func
+                },
+                create: {
+                  name: func
+                }
+              }))
+          }
+        }
+      })
+    ))
+  )
+}
+
+
+async function seed_steps(steps) {
+  await prisma.step.createMany({
+    data: steps.map((step) => ({
+      text: step
+    }))
+  })
+}
+
+async function seed_recipes(recipes) {
+  await prisma.$transaction(
+    recipes.map((recipe) => (
+      prisma.recipe.create({
+        data: {
+          name: recipe.name,
+          likes: recipe.likes,
+          tags: {
+            connectOrCreate: recipe.tags.map((tag) => ({
+              where: {
+                name: tag
+              },
+              create: {
+                name: tag
+              }
+            }))
+          },
+          steps: {
+            create: recipe.steps.map((step) => ({
+              text: step
+            }))
+          }
+        }
+      })
+    ))
+  )
+}
+
+
 async function seed() {
-  await prisma.function.deleteMany({})
-  await prisma.node.deleteMany({})
-  await prisma.recipe.deleteMany({})
-  await prisma.recipeStep.deleteMany({})
+  await prisma.ingredient.deleteMany({})
   await prisma.step.deleteMany({})
+  await prisma.recipeStep.deleteMany({})
+  await prisma.recipe.deleteMany({})
+  await prisma.function.deleteMany({})
   await prisma.tag.deleteMany({})
 
-  await prisma.tag.createMany({
-    data: [
-      {name: "baking"},
-      {name: "with pan"},
-      {name: "vegetarian"},
-      {name: "gluten-free"},
-    ]
-  })
-  await prisma.function.createMany({
-    data: [
-      {name: "pan greese"},
-      {name: "dry"},
-      {name: "wet"},
-      {name: "raw"},
-      {name: "cooked"},
-    ]
-  })
+  const data = await require("./seed_data.json")
 
-  const tags = await prisma.tag.findMany({})
-  const functions = await prisma.function.findMany({})
-
-  const nodeCreationData = [
-    {
-      name: "butter",
-      tags: {
-        connect: [
-          { id: tags[0].id },
-          { id: tags[1].id },
-          { id: tags[2].id },
-          { id: tags[3].id },
-        ]
-      }
-    },
-    {
-      name: "flour",
-      tags: {
-        connect: [
-          { id: tags[0].id },
-          { id: tags[2].id },
-        ]
-      }
-    },
-  ]
-
-  await prisma.$transaction(
-    nodeCreationData.map(
-      (data) => (
-        prisma.node.create({
-          data: data
-        })
-      )
-    )
-  )
+  console.log("Seeding ingredients...")
+  await seed_ingredients(data.ingredients)
+  console.log("Seeding steps...")
+  await seed_steps(data.steps)
+  console.log("Seeding recipes...")
+  await seed_recipes(data.recipes)
 }
 
 seed()

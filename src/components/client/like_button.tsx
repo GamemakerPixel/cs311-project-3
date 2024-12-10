@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
+import { motion } from "motion/react"
 
 
 export default function LikeButton(
@@ -33,7 +34,22 @@ export default function LikeButton(
   }, [liked])
 
   return (
-    <div className="flex items-center justify-center font-semibold">
+    <motion.div
+      className="flex items-center justify-center font-semibold"
+      initial={{
+        rotate: 0,
+        color: "#efece6"
+      }}
+      whileHover={{
+        rotate: [0, 3, -3, 0],
+        color: ["#efece6", "#f82866", "#f82866", "#efece6"]
+      }}
+      transition={{
+        duration: 0.6,
+        ease: "easeInOut",
+        times: [0, 0.2, 0.4, 0.6]
+      }}
+    >
       <span>
         Likes: {likeCount}
       </span>
@@ -43,7 +59,7 @@ export default function LikeButton(
       >
         {(liked) ? "Unlike" : "Like"}
       </button>
-    </div>
+    </motion.div>
   )
   
 }

@@ -17,6 +17,7 @@ import {
   isBlank,
   parseTags,
   getFunctionsFromStep,
+  tagCountLessThan,
   tagCountOutsideInclusiveRange,
   stepHasUnclosedFunction,
   stepHasNestedFunction,
@@ -192,6 +193,12 @@ export default function Page() {
         hideButtonText="Cancel"
       >
         <AddIngredientForm action={submitIngredientForm}/>
+        <p className="text-center">
+          "Functions" that you add to ingredients will be used to replace
+          placeholders in steps. (For example, milk, with the function "wet",
+          could be substituted into a step, "Add [wet].", resuling in
+          "Add milk.")
+        </p>
       </ShowHide>
       <ShowHide
         hintText="Hmm. Perhaps you're more interested in the delicate art of changing how those ingredients are prepared."

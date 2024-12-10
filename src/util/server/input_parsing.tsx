@@ -11,7 +11,8 @@ export function parseTags(input: string): string[] {
   const tagDelimiter = ","
 
   const splitTags = input.split(tagDelimiter)
-  return splitTags.filter((tag) => tag != "")
+  const strippedTags = splitTags.map((tag: string) => tag.trim())
+  return strippedTags.filter((tag) => tag != "")
 }
 
 
