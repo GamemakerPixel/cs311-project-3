@@ -17,7 +17,7 @@ export async function uploadFile(file: File, recipeId: number) {
   const buffer = Buffer.from(bytes)
 
   const directory = join(uploadPath, recipeId.toString())
-  await mkdir(directory)
+  await mkdir(directory, { recursive: true })
   const filepath = join(directory, file.name)
   await writeFile(filepath, buffer)
 }
